@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Matías Gabriel Katz</Authors>
+    <Company />
+    <Description>A collection of basic extension methods.</Description>
+    <Copyright>Copyright 2020 (c) Matías Gabriel Katz</Copyright>
+    <PackageTags>extension methods</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.1.2" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>
