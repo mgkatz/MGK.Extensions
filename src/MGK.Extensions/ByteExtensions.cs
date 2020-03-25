@@ -4,7 +4,12 @@ namespace MGK.Extensions
 {
 	public static class ByteExtensions
 	{
-		public static string ToString(this byte[] source)
+		/// <summary>
+		/// Converts an array of bytes to its representation as a string.
+		/// </summary>
+		/// <param name="source">The array of bytes to convert.</param>
+		/// <returns>The string representation of the array of bytes.</returns>
+		public static string ToOriginalString(this byte[] source)
 		{
 			var result = string.Empty;
 
