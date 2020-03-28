@@ -4,7 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Matías Gabriel Katz</Authors>
     <Company />
+	<Title>Base extension methods for projects</Title>
     <Description>A collection of basic extension methods.</Description>
+	<Summary>A collection of basic extension methods useful for projects.</Summary>
     <Copyright>Copyright 2020 (c) Matías Gabriel Katz</Copyright>
     <PackageTags>extension methods</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
