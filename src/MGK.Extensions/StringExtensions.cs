@@ -32,6 +32,22 @@ namespace MGK.Extensions
 			=> int.TryParse(source, out _);
 
 		/// <summary>
+		/// Indicates whether the given string is null or empty.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <returns>True if the given string is null or empty; otherwise false.</returns>
+		public static bool IsNullOrEmpty(this string source)
+			=> string.IsNullOrEmpty(source);
+
+		/// <summary>
+		/// Indicates whether the given string is null, empty or consists only of white spaces.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <returns>True if the given string is null, empty or only white spaces; otherwise false.</returns>
+		public static bool IsNullOrEmptyOrWhiteSpace(this string source)
+			=> string.IsNullOrWhiteSpace(source);
+
+		/// <summary>
 		/// Converts a given string to an array of bytes.
 		/// </summary>
 		/// <param name="source">The given string.</param>

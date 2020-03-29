@@ -59,5 +59,24 @@ namespace MGK.Extensions.Test
 		[TestCase(null)]
 		public void ToByteArray_WhenStringIsNullOrEmpty_ShouldReturnEmptyArray(string stringToConvert)
 			=> Assert.Zero(stringToConvert.ToByteArray().Length);
+
+		[TestCase("")]
+		[TestCase(null)]
+		public void IsNullOrEmpty_WhenStringIsNullOrEmpty_ShouldReturnTrue(string stringToEvaluate)
+			=> Assert.True(stringToEvaluate.IsNullOrEmpty());
+
+		[Test]
+		public void IsNullOrEmpty_WhenStringIsNotNullNorEmpty_ShouldReturnFalse()
+			=> Assert.False("qwerty".IsNullOrEmpty());
+
+		[TestCase("")]
+		[TestCase(null)]
+		[TestCase("          ")]
+		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue(string stringToEvaluate)
+			=> Assert.True(stringToEvaluate.IsNullOrEmptyOrWhiteSpace());
+
+		[Test]
+		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue()
+			=> Assert.False("qwerty".IsNullOrEmptyOrWhiteSpace());
 	}
 }
