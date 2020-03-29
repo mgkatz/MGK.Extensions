@@ -7,6 +7,15 @@ namespace MGK.Extensions
 	public static class StringExtensions
 	{
 		/// <summary>
+		/// In a given string, replaces the format item with the string representation of a corresponding object in a specified array.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <param name="args">An object array that contains zero or more objects to format.</param>
+		/// <returns>The given string with the items replaced.</returns>
+		public static string Format(this string source, params object[] args)
+			=> string.Format(source, args);
+
+		/// <summary>
 		/// Evaluates if a given string is a date.
 		/// </summary>
 		/// <param name="source">The given string.</param>
@@ -27,7 +36,6 @@ namespace MGK.Extensions
 		/// </summary>
 		/// <param name="source">The given string.</param>
 		/// <returns>True if the given string is an integer, otherwise false.</returns>
-
 		public static bool IsInteger(this string source)
 			=> int.TryParse(source, out _);
 
