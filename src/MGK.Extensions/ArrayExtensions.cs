@@ -1,9 +1,19 @@
 ﻿using System;
+using System.Linq;
 
 namespace MGK.Extensions
 {
 	public static class ArrayExtensions
 	{
+		/// <summary>
+		/// Indicates whether the given array is null or empty.
+		/// </summary>
+		/// <typeparam name="T">The type of the array.</typeparam>
+		/// <param name="source">The given array.</param>
+		/// <returns>True if the array is null or empty; otherwise false.</returns>
+		public static bool IsNullOrEmpty<T>(this T[] source)
+			=> source?.Any() != true;
+
 		/// <summary>
 		/// Removes an item from an array by its index position.
 		/// </summary>
