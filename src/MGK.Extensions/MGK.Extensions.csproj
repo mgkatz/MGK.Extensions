@@ -14,9 +14,9 @@
     <PackageProjectUrl>https://github.com/mgkatz/MGK.Extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mgkatz/MGK.Extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
-	<Version>1.0.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+	<Version>1.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
