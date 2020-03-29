@@ -78,5 +78,33 @@ namespace MGK.Extensions.Test
 		[Test]
 		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue()
 			=> Assert.False("qwerty".IsNullOrEmptyOrWhiteSpace());
+
+		[TestCase("Hello {0}!!", null, null, null)]
+		[TestCase("Hello {0}!!", "World", null, null)]
+		[TestCase("Hello {0}!! This is a {1} day.", "World", "wonderful", null)]
+		[TestCase("Hello {0}!! This is a {1} day and here goes the third parameter: {2}", "World", "wonderful", "I don't know what else to put in here!!")]
+		public void Format_WhenGivenStringIsValid_ShouldReplaceItems(string originalString, string param1, string param2, string param3)
+		{
+			var stringFormatManually = string.Empty;
+			var stringFormatByExtension = string.Empty;
+
+			if (param2.IsNullOrEmpty())
+			{
+				stringFormatManually = string.Format(originalString, param1);
+				stringFormatByExtension = originalString.Format(param1);
+			}
+			else if (param3.IsNullOrEmpty())
+			{
+				stringFormatManually = string.Format(originalString, param1, param2);
+				stringFormatByExtension = originalString.Format(param1, param2);
+			}
+			else
+			{
+				stringFormatManually = string.Format(originalString, param1, param2, param3);
+				stringFormatByExtension = originalString.Format(param1, param2, param3);
+			}
+
+			Assert.AreEqual(stringFormatManually, stringFormatByExtension);
+		}
 	}
 }
