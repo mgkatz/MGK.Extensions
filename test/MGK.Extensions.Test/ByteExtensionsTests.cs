@@ -1,5 +1,4 @@
-﻿using AutoFixture;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace MGK.Extensions.Test
 {
