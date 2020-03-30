@@ -38,20 +38,7 @@ namespace MGK.Extensions.Test
 			string[] arrayForTest = _fixture.CreateMany<string>(itemCount).ToArray();
 
 			Assert.AreEqual(arrayForTest.Length, itemCount);
-
-			Assert.Throws<ArgumentOutOfRangeException>(new TestDelegate(() => arrayForTest.RemoveAt(index)));
-		}
-
-		[TestCase(null)]
-		[TestCase(new byte[0])]
-		public void IsNullOrEmpty_IfArrayIsNullOrEmpty_ShouldReturnTrue(byte[] array)
-			=> Assert.True(array.IsNullOrEmpty());
-
-		[Test]
-		public void IsNullOrEmpty_IfArrayIsNotNullNorEmpty_ShouldReturnFalse()
-		{
-			byte[] arrayForTest = _fixture.CreateMany<byte>().ToArray();
-			Assert.False(arrayForTest.IsNullOrEmpty());
+			Assert.Throws<ArgumentOutOfRangeException>(() => arrayForTest.RemoveAt(index));
 		}
 	}
 }
