@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MGK.Extensions.Constants;
+using System;
 using System.Globalization;
 using System.IO;
 
@@ -7,6 +8,14 @@ namespace MGK.Extensions
 	public static class StringExtensions
 	{
 		/// <summary>
+		/// Adds a carriage return and a line feed to a given string.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <returns>The given string with the carriage return and the line feed.</returns>
+		public static string AddCRLF(this string source)
+			=> (source ?? string.Empty) + StringConstants.CRLF;
+
+		/// <summary>
 		/// In a given string, replaces the format item with the string representation of a corresponding object in a specified array.
 		/// </summary>
 		/// <param name="source">The given string.</param>
@@ -14,6 +23,29 @@ namespace MGK.Extensions
 		/// <returns>The given string with the items replaced.</returns>
 		public static string Format(this string source, params object[] args)
 			=> string.Format(source, args);
+
+		/// <summary>
+		/// In a given string adds a tab indentation at the beginning.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <returns>The given string with the tab indentation at the beginning.</returns>
+		public static string Indent(this string source)
+			=> Indent(source, 1);
+
+		/// <summary>
+		/// In a given string adds a specific number of tabs for indentation at the beginning.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <param name="total">The total tabs to add for indentation.</param>
+		/// <returns>The given string with the number of tabs for indentation at the beginning. If the number of tabs is 0 (zero) it will return the original string.</returns>
+		public static string Indent(this string source, byte total)
+		{
+			if (total == 0)
+				return source;
+
+			var indentations = new string(Convert.ToChar(StringConstants.Indentation), total);
+			return indentations + (source ?? string.Empty);
+		}
 
 		/// <summary>
 		/// Evaluates if a given string is a date.

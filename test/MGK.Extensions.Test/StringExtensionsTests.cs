@@ -1,10 +1,70 @@
-﻿using NUnit.Framework;
+﻿using MGK.Extensions.Constants;
+using NUnit.Framework;
 using System;
 
 namespace MGK.Extensions.Test
 {
 	public class StringExtensionsTests
 	{
+		[TestCase("Text for testing")]
+		[TestCase(" ")]
+		[TestCase("")]
+		[TestCase(null)]
+		public void AddCRLF_WhenValidString_ShouldReturnStringWithCRLF(string text)
+		{
+			var textWithCRLF = text.AddCRLF();
+			Assert.AreNotEqual(text, textWithCRLF);
+			Assert.IsTrue(textWithCRLF.EndsWith(StringConstants.CRLF));
+
+			if (text.IsNullOrEmpty())
+				Assert.AreEqual(textWithCRLF, StringConstants.CRLF);
+		}
+
+		[TestCase("Text for testing")]
+		[TestCase(" ")]
+		[TestCase("")]
+		[TestCase(null)]
+		public void Indent_WhenValidString_ShouldReturnStringWithOneTab(string text)
+		{
+			var textWithIndent = text.Indent();
+			Assert.AreNotEqual(text, textWithIndent);
+			Assert.IsTrue(textWithIndent.StartsWith(StringConstants.Indentation));
+
+			if (text.IsNullOrEmpty())
+				Assert.AreEqual(textWithIndent, StringConstants.Indentation);
+			else
+				Assert.AreEqual(StringConstants.Indentation + text, textWithIndent);
+		}
+
+		[TestCase("Text for testing", 2)]
+		[TestCase(" ", 2)]
+		[TestCase("", 2)]
+		[TestCase(null, 2)]
+		[TestCase("Text for testing", 0)]
+		[TestCase(" ", 0)]
+		[TestCase("", 0)]
+		[TestCase(null, 0)]
+		public void Indent_WhenValidStringAndManyTabs_ShouldReturnStringWithManyTabsAsStated(string text, byte total)
+		{
+			var textWithIndents = text.Indent(total);
+
+			if (total == 0)
+			{
+				Assert.AreEqual(text, textWithIndents);
+			}
+			else
+			{
+				Assert.AreNotEqual(text, textWithIndents);
+				var indents = string.Empty.Indent(total);
+				Assert.IsTrue(textWithIndents.StartsWith(indents));
+
+				if (text.IsNullOrEmpty())
+					Assert.AreEqual(textWithIndents, indents);
+				else
+					Assert.AreEqual(indents + text, textWithIndents);
+			}
+		}
+
 		[Test]
 		public void IsDate_WhenValidString_ShouldReturnTrue()
 		{
