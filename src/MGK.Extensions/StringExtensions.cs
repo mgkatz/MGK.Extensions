@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace MGK.Extensions
 {
@@ -45,6 +46,36 @@ namespace MGK.Extensions
 
 			var indentations = new string(Convert.ToChar(StringConstants.Indentation), total);
 			return indentations + (source ?? string.Empty);
+		}
+
+		/// <summary>
+		/// In a given block adds a tab indentation at the beginning of each line.
+		/// </summary>
+		/// <param name="source">The given block.</param>
+		/// <returns>The given block with the tab indentation at the beginning of each line.</returns>
+		public static string IndentBlock(this string source)
+			=> IndentBlock(source, 1);
+
+		/// <summary>
+		/// In a given block adds a specific number of tabs for indentation at the beginning of each line.
+		/// </summary>
+		/// <param name="source">The given block.</param>
+		/// <param name="total">The total tabs to add for indentation.</param>
+		/// <returns>The given block with the number of tabs for indentation at the beginning of each line. If the number of tabs is 0 (zero) it will return the original string.</returns>
+		public static string IndentBlock(this string source, byte total)
+		{
+			if (total == 0)
+				return source;
+
+			source = source ?? string.Empty;
+			var sb = new StringBuilder();
+			var indentations = new string(Convert.ToChar(StringConstants.Indentation), total);
+			var lines = source.Split(new string[] { StringConstants.CRLF }, StringSplitOptions.None);
+
+			foreach (var line in lines)
+				sb.Append(indentations).AppendLine(line);
+
+			return sb.ToString();
 		}
 
 		/// <summary>
