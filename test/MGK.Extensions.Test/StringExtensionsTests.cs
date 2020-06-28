@@ -28,12 +28,12 @@ namespace MGK.Extensions.Test
 		{
 			var textWithIndent = text.Indent();
 			Assert.AreNotEqual(text, textWithIndent);
-			Assert.IsTrue(textWithIndent.StartsWith(StringConstants.Indentation));
+			Assert.IsTrue(textWithIndent.StartsWith(StringConstants.Tab));
 
 			if (text.IsNullOrEmpty())
-				Assert.AreEqual(textWithIndent, StringConstants.Indentation);
+				Assert.AreEqual(textWithIndent, StringConstants.Tab);
 			else
-				Assert.AreEqual(StringConstants.Indentation + text, textWithIndent);
+				Assert.AreEqual(StringConstants.Tab + text, textWithIndent);
 		}
 
 		[TestCase("Text for testing", 2)]
