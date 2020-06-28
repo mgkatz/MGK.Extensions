@@ -1,4 +1,5 @@
 ﻿using MGK.Extensions.Constants;
+using MGK.Extensions.Enums;
 using System;
 using System.Globalization;
 using System.IO;
@@ -17,6 +18,23 @@ namespace MGK.Extensions
 			=> (source ?? string.Empty) + StringConstants.CRLF;
 
 		/// <summary>
+		/// Adds spaces to a given string.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <returns>The given string with the spaces.</returns>
+		public static string AddSpaces(this string source, int total = 1, Position position = Position.Beggining)
+		{
+			if (total <= 0)
+				return source;
+
+			var spaces = new string(Convert.ToChar(StringConstants.Space), total);
+
+			return position == Position.Beggining
+				? spaces + (source ?? string.Empty)
+				: (source ?? string.Empty) + spaces;
+		}
+
+		/// <summary>
 		/// In a given string, replaces the format item with the string representation of a corresponding object in a specified array.
 		/// </summary>
 		/// <param name="source">The given string.</param>
@@ -26,54 +44,79 @@ namespace MGK.Extensions
 			=> string.Format(source, args);
 
 		/// <summary>
-		/// In a given string adds a tab indentation at the beginning.
+		/// In a given string adds a specific number of a given character for indentation at the beginning. The default character is a tab.
 		/// </summary>
 		/// <param name="source">The given string.</param>
-		/// <returns>The given string with the tab indentation at the beginning.</returns>
+		/// <returns>The given string with the number of a given character for indentation at the beginning. If the number of characters is equal to or less than 0 (zero) it will return the original string.</returns>
 		public static string Indent(this string source)
-			=> Indent(source, 1);
+			=> Indent(source, 1, IndentationCharacter.Tab);
 
 		/// <summary>
-		/// In a given string adds a specific number of tabs for indentation at the beginning.
+		/// In a given string adds a specific number of a given character for indentation at the beginning. The default character is a tab.
 		/// </summary>
 		/// <param name="source">The given string.</param>
-		/// <param name="total">The total tabs to add for indentation.</param>
-		/// <returns>The given string with the number of tabs for indentation at the beginning. If the number of tabs is 0 (zero) it will return the original string.</returns>
-		public static string Indent(this string source, byte total)
+		/// <param name="total">The total characters to add for indentation.</param>
+		/// <returns>The given string with the number of a given character for indentation at the beginning. If the number of characters is equal to or less than 0 (zero) it will return the original string.</returns>
+		public static string Indent(this string source, int total)
+			=> Indent(source, total, IndentationCharacter.Tab);
+
+		/// <summary>
+		/// In a given string adds a specific number of a given character for indentation at the beginning.
+		/// </summary>
+		/// <param name="source">The given string.</param>
+		/// <param name="total">The total characters to add for indentation.</param>
+		/// <param name="indentationCharacter">The given character to add.</param>
+		/// <returns>The given string with the number of a given character for indentation at the beginning. If the number of characters is equal to or less than 0 (zero) it will return the original string.</returns>
+		public static string Indent(this string source, int total, IndentationCharacter indentationCharacter)
 		{
-			if (total == 0)
+			if (total <= 0)
 				return source;
 
-			var indentations = new string(Convert.ToChar(StringConstants.Indentation), total);
+			var indentations = new string(Convert.ToChar(indentationCharacter.GetStringValue()), total);
 			return indentations + (source ?? string.Empty);
 		}
 
 		/// <summary>
-		/// In a given block adds a tab indentation at the beginning of each line.
+		/// In a given block adds a specific number of a given character for indentation at the beginning of each line. The default character is a tab.
 		/// </summary>
 		/// <param name="source">The given block.</param>
-		/// <returns>The given block with the tab indentation at the beginning of each line.</returns>
+		/// <returns>The given block with the number of a given character for indentation at the beginning of each line. If the number of the given character is equal to or less than 0 (zero) it will return the original string.</returns>
 		public static string IndentBlock(this string source)
-			=> IndentBlock(source, 1);
+			=> IndentBlock(source, 1, IndentationCharacter.Tab);
 
 		/// <summary>
-		/// In a given block adds a specific number of tabs for indentation at the beginning of each line.
+		/// In a given block adds a specific number of a given character for indentation at the beginning of each line. The default character is a tab.
 		/// </summary>
 		/// <param name="source">The given block.</param>
-		/// <param name="total">The total tabs to add for indentation.</param>
-		/// <returns>The given block with the number of tabs for indentation at the beginning of each line. If the number of tabs is 0 (zero) it will return the original string.</returns>
-		public static string IndentBlock(this string source, byte total)
+		/// <param name="total">The total number of the given character to add for indentation.</param>
+		/// <returns>The given block with the number of a given character for indentation at the beginning of each line. If the number of the given character is equal to or less than 0 (zero) it will return the original string.</returns>
+		public static string IndentBlock(this string source, int total)
+			=> IndentBlock(source, total, IndentationCharacter.Tab);
+
+		/// <summary>
+		/// In a given block adds a specific number of a given character for indentation at the beginning of each line.
+		/// </summary>
+		/// <param name="source">The given block.</param>
+		/// <param name="total">The total number of the given character to add for indentation.</param>
+		/// <param name="indentationCharacter">The given character to use for indentation.</param>
+		/// <returns>The given block with the number of a given character for indentation at the beginning of each line. If the number of the given character is equal to or less than 0 (zero) it will return the original string.</returns>
+		public static string IndentBlock(this string source, int total, IndentationCharacter indentationCharacter)
 		{
-			if (total == 0)
+			if (total <= 0)
 				return source;
 
 			source = source ?? string.Empty;
 			var sb = new StringBuilder();
-			var indentations = new string(Convert.ToChar(StringConstants.Indentation), total);
+			var indentations = new string(Convert.ToChar(indentationCharacter.GetStringValue()), total);
 			var lines = source.Split(new string[] { StringConstants.CRLF }, StringSplitOptions.None);
 
 			foreach (var line in lines)
-				sb.Append(indentations).AppendLine(line);
+			{
+				if (line.IsNullOrEmpty())
+					sb.AppendLine(line);
+				else
+					sb.Append(indentations).AppendLine(line);
+			}
 
 			return sb.ToString();
 		}
