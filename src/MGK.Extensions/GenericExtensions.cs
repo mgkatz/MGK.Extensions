@@ -24,8 +24,8 @@ namespace MGK.Extensions
 		/// <param name="listOfValues">The list of values where to search.</param>
 		/// <param name="ignoreCase">True if want to ignore case, otherwise false.</param>
 		/// <returns>True if the value exists in the given list, otherwise returns false.</returns>
-		public static bool In<T>(this T source, T[] listOfValues, bool ignoreCase)
-			=> PrivateIn(source, listOfValues, ignoreCase);
+		public static bool In<T>(this T source, T[] listOfValues, bool ignoreCase, bool hasToMatchExact = false)
+			=> PrivateIn(source, listOfValues, ignoreCase, hasToMatchExact);
 
 		/// <summary>
 		/// Evaluates if a given value exists into a list of values.
@@ -45,8 +45,8 @@ namespace MGK.Extensions
 		/// <param name="listOfValues">The list of values where to search.</param>
 		/// <param name="ignoreCase">True if want to ignore case, otherwise false.</param>
 		/// <returns>True if the value exists in the given list, otherwise returns false.</returns>
-		public static bool In<T>(this T source, List<T> listOfValues, bool ignoreCase)
-			=> PrivateIn(source, listOfValues, ignoreCase);
+		public static bool In<T>(this T source, List<T> listOfValues, bool ignoreCase, bool hasToMatchExact = false)
+			=> PrivateIn(source, listOfValues, ignoreCase, hasToMatchExact);
 
 		/// <summary>
 		/// Evaluates if a given value exists into a list of values.
@@ -66,14 +66,16 @@ namespace MGK.Extensions
 		/// <param name="listOfValues">The list of values where to search.</param>
 		/// <param name="ignoreCase">True if want to ignore case, otherwise false.</param>
 		/// <returns>True if the value exists in the given list, otherwise returns false.</returns>
-		public static bool In<T>(this T source, IEnumerable<T> listOfValues, bool ignoreCase)
-			=> PrivateIn(source, listOfValues, ignoreCase);
+		public static bool In<T>(this T source, IEnumerable<T> listOfValues, bool ignoreCase, bool hasToMatchExact = false)
+			=> PrivateIn(source, listOfValues, ignoreCase, hasToMatchExact);
 
-		private static bool PrivateIn<T>(T source, IEnumerable<T> listOfValues, bool ignoreCase)
+		private static bool PrivateIn<T>(T source, IEnumerable<T> listOfValues, bool ignoreCase, bool hasToMatchExact = false)
 		{
 			if (ignoreCase && source is string stringSource)
 			{
-				return listOfValues.Any(lov => ((lov as string) ?? string.Empty).Equals(stringSource, StringComparison.InvariantCultureIgnoreCase));
+				return hasToMatchExact
+					? listOfValues.Any(lov => ((lov as string) ?? string.Empty).Equals(stringSource, StringComparison.InvariantCultureIgnoreCase))
+					: listOfValues.Any(lov => stringSource.IndexOf((lov as string) ?? string.Empty, StringComparison.InvariantCultureIgnoreCase) > 0);
 			}
 
 			return In(source, listOfValues);
