@@ -1,43 +1,41 @@
 using AutoFixture;
-using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace MGK.Extensions.Test
 {
 	public class ArrayExtensionsTests
 	{
-		private readonly IFixture _fixture;
+		private IFixture _fixture;
 
-		public ArrayExtensionsTests()
-		{
-			_fixture = new Fixture();
-		}
+        [SetUp]
+        public void Setup()
+        {
+            _fixture = new Fixture();
+        }
 
-		[Test]
+        [Test]
 		public void RemoveAt_ShouldRemoveItem()
 		{
-			int itemCount = 10;
-			int index = 6;
+			const int itemCount = 10;
+			const int index = 6;
 			string[] arrayForTest = _fixture.CreateMany<string>(itemCount).ToArray();
 			string valueToRemove = arrayForTest[index];
 
-			Assert.AreEqual(arrayForTest.Length, itemCount);
+			Assert.That(arrayForTest, Has.Length.EqualTo(itemCount));
 
 			arrayForTest = arrayForTest.RemoveAt(index);
 
-			Assert.AreEqual(arrayForTest.Length, itemCount - 1);
-			Assert.False(arrayForTest.Contains(valueToRemove));
+			Assert.That(arrayForTest, Has.Length.EqualTo(itemCount - 1));
+			Assert.That(arrayForTest, Does.Not.Contain(valueToRemove));
 		}
 
 		[Test]
 		public void RemoveAt_IfIndexNotExists_ShouldThrowOutOfRangeException()
 		{
-			int itemCount = 10;
-			int index = 14;
+			const int itemCount = 10;
+			const int index = 14;
 			string[] arrayForTest = _fixture.CreateMany<string>(itemCount).ToArray();
 
-			Assert.AreEqual(arrayForTest.Length, itemCount);
+			Assert.That(arrayForTest, Has.Length.EqualTo(itemCount));
 			Assert.Throws<ArgumentOutOfRangeException>(() => arrayForTest.RemoveAt(index));
 		}
 	}

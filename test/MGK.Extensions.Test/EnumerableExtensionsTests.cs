@@ -1,29 +1,30 @@
 ﻿using AutoFixture;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MGK.Extensions.Test
 {
 	public class EnumerableExtensionsTests
 	{
-		private readonly IFixture _fixture;
+		private IFixture _fixture;
 
-		public EnumerableExtensionsTests()
-		{
-			_fixture = new Fixture();
-		}
+        [SetUp]
+        public void Setup()
+        {
+            _fixture = new Fixture();
+        }
 
-		[Test]
+        [Test]
 		public void IsNullOrEmpty_IfEnumerableIsNullOrEmpty_ShouldReturnTrue()
 		{
-			var array = new int[0];
+			var array = Array.Empty<int>();
 			var list = new List<int>();
 			var dictionary = new Dictionary<int, string>();
 
-			Assert.True(array.IsNullOrEmpty());
-			Assert.True(list.IsNullOrEmpty());
-			Assert.True(dictionary.IsNullOrEmpty());
+			Assert.Multiple(() =>
+			{
+				Assert.That(array.IsNullOrEmpty(), Is.True);
+				Assert.That(list.IsNullOrEmpty(), Is.True);
+				Assert.That(dictionary.IsNullOrEmpty(), Is.True);
+			});
 		}
 
 		[Test]
@@ -33,9 +34,12 @@ namespace MGK.Extensions.Test
 			var list = _fixture.CreateMany<int>().ToList();
 			var dictionary = _fixture.CreateMany<KeyValuePair<int, string>>().ToDictionary(x => x.Key, x => x.Value);
 
-			Assert.False(array.IsNullOrEmpty());
-			Assert.False(list.IsNullOrEmpty());
-			Assert.False(dictionary.IsNullOrEmpty());
+			Assert.Multiple(() =>
+			{
+				Assert.That(array.IsNullOrEmpty(), Is.False);
+				Assert.That(list.IsNullOrEmpty(), Is.False);
+				Assert.That(dictionary.IsNullOrEmpty(), Is.False);
+			});
 		}
 	}
 }

@@ -1,6 +1,4 @@
 ﻿using MGK.Extensions.Constants;
-using NUnit.Framework;
-using System;
 
 namespace MGK.Extensions.Test
 {
@@ -13,11 +11,11 @@ namespace MGK.Extensions.Test
 		public void AddCRLF_WhenValidString_ShouldReturnStringWithCRLF(string text)
 		{
 			var textWithCRLF = text.AddCRLF();
-			Assert.AreNotEqual(text, textWithCRLF);
-			Assert.IsTrue(textWithCRLF.EndsWith(StringConstants.CRLF));
+			Assert.That(textWithCRLF, Is.Not.EqualTo(text));
+			Assert.That(textWithCRLF, Does.EndWith(StringConstants.CRLF));
 
 			if (text.IsNullOrEmpty())
-				Assert.AreEqual(textWithCRLF, StringConstants.CRLF);
+				Assert.That(textWithCRLF, Is.EqualTo(StringConstants.CRLF));
 		}
 
 		[TestCase("Text for testing")]
@@ -27,13 +25,13 @@ namespace MGK.Extensions.Test
 		public void Indent_WhenValidString_ShouldReturnStringWithOneTab(string text)
 		{
 			var textWithIndent = text.Indent();
-			Assert.AreNotEqual(text, textWithIndent);
-			Assert.IsTrue(textWithIndent.StartsWith(StringConstants.Tab));
+			Assert.That(textWithIndent, Is.Not.EqualTo(text));
+			Assert.That(textWithIndent, Does.StartWith(StringConstants.Tab));
 
 			if (text.IsNullOrEmpty())
-				Assert.AreEqual(textWithIndent, StringConstants.Tab);
+				Assert.That(textWithIndent, Is.EqualTo(StringConstants.Tab));
 			else
-				Assert.AreEqual(StringConstants.Tab + text, textWithIndent);
+				Assert.That(textWithIndent, Is.EqualTo(StringConstants.Tab + text));
 		}
 
 		[TestCase("Text for testing", 2)]
@@ -50,18 +48,18 @@ namespace MGK.Extensions.Test
 
 			if (total == 0)
 			{
-				Assert.AreEqual(text, textWithIndents);
+				Assert.That(textWithIndents, Is.EqualTo(text));
 			}
 			else
 			{
-				Assert.AreNotEqual(text, textWithIndents);
+				Assert.That(textWithIndents, Is.Not.EqualTo(text));
 				var indents = string.Empty.Indent(total);
-				Assert.IsTrue(textWithIndents.StartsWith(indents));
+				Assert.That(textWithIndents, Does.StartWith(indents));
 
 				if (text.IsNullOrEmpty())
-					Assert.AreEqual(textWithIndents, indents);
+					Assert.That(indents, Is.EqualTo(textWithIndents));
 				else
-					Assert.AreEqual(indents + text, textWithIndents);
+					Assert.That(textWithIndents, Is.EqualTo(indents + text));
 			}
 		}
 
@@ -70,7 +68,7 @@ namespace MGK.Extensions.Test
 		{
 			// This gets a date in the current culture
 			var date = new DateTime(2000, 1, 1).ToString("d");
-			Assert.True(date.IsDate());
+			Assert.That(date.IsDate(), Is.True);
 		}
 
 		[TestCase("qwerty")]
@@ -79,11 +77,11 @@ namespace MGK.Extensions.Test
 		[TestCase("")]
 		[TestCase(null)]
 		public void IsDate_WhenInvalidString_ShouldReturnFalse(string date)
-			=> Assert.False(date.IsDate());
+			=> Assert.That(date.IsDate(), Is.False);
 
 		[Test]
 		public void IsDecimal_WhenValidString_ShouldReturnTrue()
-			=> Assert.True(12.34M.ToString().IsDecimal());
+			=> Assert.That(12.34M.ToString().IsDecimal(), Is.True);
 
 		[TestCase("qwerty")]
 		[TestCase("123456789")]
@@ -91,11 +89,11 @@ namespace MGK.Extensions.Test
 		[TestCase("")]
 		[TestCase(null)]
 		public void IsDecimal_WhenInvalidString_ShouldReturnFalse(string number)
-			=> Assert.False(number.IsDecimal());
+			=> Assert.That(number.IsDecimal(), Is.False);
 
 		[Test]
 		public void IsInteger_WhenValidString_ShouldReturnTrue()
-			=> Assert.True("1234".IsInteger());
+			=> Assert.That("1234".IsInteger(), Is.True);
 
 		[TestCase("qwerty")]
 		[TestCase("12.34")]
@@ -103,41 +101,41 @@ namespace MGK.Extensions.Test
 		[TestCase("")]
 		[TestCase(null)]
 		public void IsInteger_WhenInvalidString_ShouldReturnFalse(string number)
-			=> Assert.False(number.IsInteger());
+			=> Assert.That(number.IsInteger(), Is.False);
 
 		[Test]
 		public void ToByteArray_WhenValidString_ShouldReturnByteArray()
 		{
 			var originalByteArray = new byte[] { 113, 119, 101, 114, 116, 121 };
-			var stringToConvert = "qwerty";
+			const string stringToConvert = "qwerty";
 			var convertedByteArray = stringToConvert.ToByteArray();
 
-			Assert.AreEqual(originalByteArray, convertedByteArray);
+			Assert.That(convertedByteArray, Is.EqualTo(originalByteArray));
 		}
 
 		[TestCase("")]
 		[TestCase(null)]
 		public void ToByteArray_WhenStringIsNullOrEmpty_ShouldReturnEmptyArray(string stringToConvert)
-			=> Assert.Zero(stringToConvert.ToByteArray().Length);
+			=> Assert.That(stringToConvert.ToByteArray(), Is.Empty);
 
 		[TestCase("")]
 		[TestCase(null)]
 		public void IsNullOrEmpty_WhenStringIsNullOrEmpty_ShouldReturnTrue(string stringToEvaluate)
-			=> Assert.True(stringToEvaluate.IsNullOrEmpty());
+			=> Assert.That(stringToEvaluate.IsNullOrEmpty(), Is.True);
 
 		[Test]
 		public void IsNullOrEmpty_WhenStringIsNotNullNorEmpty_ShouldReturnFalse()
-			=> Assert.False("qwerty".IsNullOrEmpty());
+			=> Assert.That("qwerty".IsNullOrEmpty(), Is.False);
 
 		[TestCase("")]
 		[TestCase(null)]
 		[TestCase("          ")]
 		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue(string stringToEvaluate)
-			=> Assert.True(stringToEvaluate.IsNullOrEmptyOrWhiteSpace());
+			=> Assert.That(stringToEvaluate.IsNullOrEmptyOrWhiteSpace(), Is.True);
 
 		[Test]
 		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue()
-			=> Assert.False("qwerty".IsNullOrEmptyOrWhiteSpace());
+			=> Assert.That("qwerty".IsNullOrEmptyOrWhiteSpace(), Is.False);
 
 		[TestCase("Hello {0}!!", null, null, null)]
 		[TestCase("Hello {0}!!", "World", null, null)]
@@ -145,8 +143,8 @@ namespace MGK.Extensions.Test
 		[TestCase("Hello {0}!! This is a {1} day and here goes the third parameter: {2}", "World", "wonderful", "I don't know what else to put in here!!")]
 		public void Format_WhenGivenStringIsValid_ShouldReplaceItems(string originalString, string param1, string param2, string param3)
 		{
-			var stringFormatManually = string.Empty;
-			var stringFormatByExtension = string.Empty;
+			string? stringFormatManually;
+			string? stringFormatByExtension;
 
 			if (param2.IsNullOrEmpty())
 			{
@@ -164,7 +162,7 @@ namespace MGK.Extensions.Test
 				stringFormatByExtension = originalString.Format(param1, param2, param3);
 			}
 
-			Assert.AreEqual(stringFormatManually, stringFormatByExtension);
+			Assert.That(stringFormatByExtension, Is.EqualTo(stringFormatManually));
 		}
 	}
 }

@@ -1,35 +1,46 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Matías Gabriel Katz</Authors>
-    <Company />
-	<Title>Base extension methods for projects</Title>
+    <Title>Base extension methods for projects</Title>
+    <Version>1.1.0</Version>
     <Description>A collection of basic extension methods.</Description>
-	<Summary>A collection of basic extension methods useful for projects.</Summary>
-    <Copyright>Copyright 2020 (c) Matías Gabriel Katz</Copyright>
-    <PackageTags>extension methods</PackageTags>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/mgkatz/MGK.Extensions</PackageProjectUrl>
+    <Copyright>Copyright 2020,2021,2022 (c) Matías Gabriel Katz</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/mgkatz/MGK.Extensions</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-	<Version>1.0.6.1</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>extension methods,array extensions,byte extensions,datetime extensions,enumerable extensions,enum extensions,generic extensions,guid extensions,string extensions</PackageTags>
+    <PackageReleaseNotes>Source code migrated from .NET Standard 2.0 to .NET 6.0.
+Extensions added to DateTimeExtensions to manage periods and intervals.
+Autofac and Automapper extensions removed.</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="5.2.0" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\MessagesResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MessagesResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\MessagesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessagesResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>ExtensionsResources</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

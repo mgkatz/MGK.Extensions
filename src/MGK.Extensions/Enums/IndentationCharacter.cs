@@ -1,14 +1,13 @@
 ﻿using MGK.Extensions.Attributes;
 using MGK.Extensions.Constants;
 
-namespace MGK.Extensions.Enums
-{
-	public enum IndentationCharacter
-	{
-		[StringValue(StringConstants.Space)]
-		Space = 0,
+namespace MGK.Extensions.Enums;
 
-		[StringValue(StringConstants.Tab)]
-		Tab = 1
-	}
+public enum IndentationCharacter
+{
+	[StringValue(StringConstants.Space)]
+	Space = 0,
+
+	[StringValue(StringConstants.Tab)]
+	Tab = 1
 }
