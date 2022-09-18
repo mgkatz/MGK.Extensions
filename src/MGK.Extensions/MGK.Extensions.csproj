@@ -10,14 +10,15 @@
     <Version>1.1.0</Version>
     <Description>A collection of basic extension methods.</Description>
     <Copyright>Copyright 2020,2021,2022 (c) Matías Gabriel Katz</Copyright>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://www.nuget.org/packages/MGK.Extensions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mgkatz/MGK.Extensions</RepositoryUrl>
-    <PackageTags>extension methods,array extensions,byte extensions,datetime extensions,enumerable extensions,enum extensions,generic extensions,guid extensions,string extensions</PackageTags>
+    <PackageTags>extension methods;array extensions;byte extensions;datetime extensions;enumerable extensions;enum extensions;generic extensions;guid extensions;string extensions</PackageTags>
     <PackageReleaseNotes>Source code migrated from .NET Standard 2.0 to .NET 6.0.
 Extensions added to DateTimeExtensions to manage periods and intervals.
 Autofac and Automapper extensions removed.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
