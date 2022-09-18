@@ -1,8 +1,7 @@
-﻿namespace MGK.Extensions.Enums
+﻿namespace MGK.Extensions.Enums;
+
+public enum Position
 {
-	public enum Position
-	{
-		Beggining = 0,
-		End = 1
-	}
+	Beginning = 0,
+	End = 1
 }
