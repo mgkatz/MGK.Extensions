@@ -1,45 +1,57 @@
-﻿using NUnit.Framework;
-using System;
-using System.Linq;
-
-namespace MGK.Extensions.Test
+﻿namespace MGK.Extensions.Test
 {
 	public class GenericExtensionsTests
 	{
 		[Test]
 		public void In_WhenValidNumberValue_ShouldReturnTrue()
 		{
-			var valueToFind = 3;
+			const int valueToFind = 3;
 			var listOfValues = new int[] { 1, 2, valueToFind, 4, 5 };
-			Assert.True(valueToFind.In(listOfValues));
-			Assert.True(valueToFind.In(listOfValues.ToList()));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.True);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.True);
+			});
 		}
 
 		[Test]
 		public void In_WhenInvalidNumberValue_ShouldReturnTrue()
 		{
-			var valueToFind = 10;
+			const int valueToFind = 10;
 			var listOfValues = new int[] { 1, 2, 3, 4, 5 };
-			Assert.False(valueToFind.In(listOfValues));
-			Assert.False(valueToFind.In(listOfValues.ToList()));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.False);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.False);
+			});
 		}
 
 		[Test]
 		public void In_WhenValidStringValue_ShouldReturnTrue()
 		{
-			var valueToFind = "ghi";
+			const string valueToFind = "ghi";
 			var listOfValues = new string[] { "abc", "def", valueToFind, "jkl", "mno" };
-			Assert.True(valueToFind.In(listOfValues));
-			Assert.True(valueToFind.In(listOfValues.ToList()));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.True);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.True);
+			});
 		}
 
 		[Test]
 		public void In_WhenInvalidStringValue_ShouldReturnTrue()
 		{
-			var valueToFind = "xyz";
+			const string valueToFind = "xyz";
 			var listOfValues = new string[] { "abc", "def", "ghi", "jkl", "mno" };
-			Assert.False(valueToFind.In(listOfValues));
-			Assert.False(valueToFind.In(listOfValues.ToList()));
+
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.False);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.False);
+			});
 		}
 
 		[Test]
@@ -55,8 +67,11 @@ namespace MGK.Extensions.Test
 				DateTime.Now.AddDays(2)
 			};
 
-			Assert.True(valueToFind.In(listOfValues));
-			Assert.True(valueToFind.In(listOfValues.ToList()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.True);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.True);
+			});
 		}
 
 		[Test]
@@ -72,8 +87,11 @@ namespace MGK.Extensions.Test
 				DateTime.Now.AddDays(2)
 			};
 
-			Assert.False(valueToFind.In(listOfValues));
-			Assert.False(valueToFind.In(listOfValues.ToList()));
+			Assert.Multiple(() =>
+			{
+				Assert.That(valueToFind.IsIn(listOfValues), Is.False);
+				Assert.That(valueToFind.IsIn(listOfValues.ToList()), Is.False);
+			});
 		}
 	}
 }
