@@ -11,6 +11,7 @@
     <Description>A collection of basic extension methods.</Description>
     <Copyright>Copyright 2020,2021,2022 (c) Matías Gabriel Katz</Copyright>
     <PackageProjectUrl>https://www.nuget.org/packages/MGK.Extensions/</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/mgkatz/MGK.Extensions</RepositoryUrl>
     <PackageTags>extension methods;array extensions;byte extensions;datetime extensions;enumerable extensions;enum extensions;generic extensions;guid extensions;string extensions</PackageTags>
     <PackageReleaseNotes>Source code migrated from .NET 6.0 to .NET 7.0.
@@ -24,6 +25,10 @@ Tests updated.</PackageReleaseNotes>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
