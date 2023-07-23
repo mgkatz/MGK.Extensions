@@ -106,7 +106,7 @@ namespace MGK.Extensions.Test
 		[Test]
 		public void ToByteArray_WhenValidString_ShouldReturnByteArray()
 		{
-			var originalByteArray = new byte[] { 113, 119, 101, 114, 116, 121 };
+            var originalByteArray = new byte[] { 113, 119, 101, 114, 116, 121 };
 			const string stringToConvert = "qwerty";
 			var convertedByteArray = stringToConvert.ToByteArray();
 
@@ -134,7 +134,7 @@ namespace MGK.Extensions.Test
 			=> Assert.That(stringToEvaluate.IsNullOrEmptyOrWhiteSpace(), Is.True);
 
 		[Test]
-		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNullOrEmptyOrWhiteSpace_ShouldReturnTrue()
+		public void IsNullOrEmptyOrWhiteSpace_WhenStringIsNotNullNorEmptyNorWhiteSpace_ShouldReturnFalse()
 			=> Assert.That("qwerty".IsNullOrEmptyOrWhiteSpace(), Is.False);
 
 		[TestCase("Hello {0}!!", null, null, null)]
@@ -164,5 +164,68 @@ namespace MGK.Extensions.Test
 
 			Assert.That(stringFormatByExtension, Is.EqualTo(stringFormatManually));
 		}
-	}
+
+		[TestCase(null, null, true)]
+        [TestCase("", "", true)]
+        [TestCase(null, "", true)]
+        [TestCase("", null, true)]
+        [TestCase("Hello world!!", "Hello world!!", true)]
+        [TestCase("Hello world!!", "Hello world!", false)]
+        [TestCase("Hello world!!", null, false)]
+        [TestCase("Hello world!!", "", false)]
+        [TestCase(null, "Hello world!!", false)]
+        [TestCase("", "Hello world!!", false)]
+        public void IsEqualto_WhenTwoStringsAreGiven_ShouldEvaluateEquality(
+			string source,
+			string target,
+			bool expectedResult)
+		{
+			bool actualResult = source.IsEqualTo(target);
+			Assert.That(actualResult, Is.EqualTo(expectedResult));
+		}
+
+        [TestCase(null, null, StringComparison.CurrentCulture, true)]
+        [TestCase(null, null, StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase(null, null, StringComparison.InvariantCulture, true)]
+        [TestCase(null, null, StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase(null, null, StringComparison.Ordinal, true)]
+        [TestCase("", "", StringComparison.CurrentCulture, true)]
+        [TestCase("", "", StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase("", "", StringComparison.InvariantCulture, true)]
+        [TestCase("", "", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase("", "", StringComparison.Ordinal, true)]
+        [TestCase(null, "", StringComparison.CurrentCulture, true)]
+        [TestCase(null, "", StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase(null, "", StringComparison.InvariantCulture, true)]
+        [TestCase(null, "", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase(null, "", StringComparison.Ordinal, true)]
+        [TestCase("", null, StringComparison.CurrentCulture, true)]
+        [TestCase("", null, StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase("", null, StringComparison.InvariantCulture, true)]
+        [TestCase("", null, StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase("", null, StringComparison.Ordinal, true)]
+        [TestCase("Strasse", "Strasse", StringComparison.CurrentCulture, true)]
+        [TestCase("Strasse", "STrasse", StringComparison.CurrentCulture, false)]
+        [TestCase("Strasse", "Straße", StringComparison.CurrentCulture, false)]
+        [TestCase("Strasse", "Strasse", StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase("Strasse", "STrasse", StringComparison.CurrentCultureIgnoreCase, true)]
+        [TestCase("Strasse", "Straße", StringComparison.CurrentCultureIgnoreCase, false)]
+        [TestCase("Strasse", "Strasse", StringComparison.InvariantCulture, true)]
+        [TestCase("Strasse", "STrasse", StringComparison.InvariantCulture, false)]
+        [TestCase("Strasse", "Straße", StringComparison.InvariantCulture, false)]
+        [TestCase("Strasse", "Strasse", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase("Strasse", "STrasse", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestCase("Strasse", "Straße", StringComparison.InvariantCultureIgnoreCase, false)]
+        [TestCase("Hello world!!", "Hello world!!", StringComparison.Ordinal, true)]
+        [TestCase("Hello world!!", "Hello World!!", StringComparison.Ordinal, false)]
+        public void IsEqualto_WhenTwoStringsAreGivenWithComparisonType_ShouldEvaluateEquality(
+			string source,
+			string target,
+			StringComparison comparisonType,
+			bool expectedResult)
+        {
+            bool actualResult = source.IsEqualTo(target, comparisonType);
+            Assert.That(actualResult, Is.EqualTo(expectedResult));
+        }
+    }
 }

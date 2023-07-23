@@ -1,21 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Matías Gabriel Katz</Authors>
     <Title>Base extension methods for projects</Title>
-    <Version>1.1.1</Version>
+    <Version>1.2.0</Version>
     <Description>A collection of basic extension methods.</Description>
     <Copyright>Copyright 2020,2021,2022 (c) Matías Gabriel Katz</Copyright>
     <PackageProjectUrl>https://www.nuget.org/packages/MGK.Extensions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mgkatz/MGK.Extensions</RepositoryUrl>
     <PackageTags>extension methods;array extensions;byte extensions;datetime extensions;enumerable extensions;enum extensions;generic extensions;guid extensions;string extensions</PackageTags>
-    <PackageReleaseNotes>Source code migrated from .NET Standard 2.0 to .NET 6.0.
-Extensions added to DateTimeExtensions to manage periods and intervals.
-Autofac and Automapper extensions removed.</PackageReleaseNotes>
+    <PackageReleaseNotes>Source code migrated from .NET 6.0 to .NET 7.0.
+Descriptions added to some extensions.
+Extension added to the strings to evaluate equality.
+Tests updated.</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>

@@ -3,6 +3,8 @@ using System.Globalization;
 
 namespace MGK.Extensions;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1175:Unused 'this' parameter.", Justification = "<Pending>")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
 public static class DateTimeExtensions
 {
 	#region Days
@@ -73,13 +75,13 @@ public static class DateTimeExtensions
 	public static string[] GetDaysOfWeekNames(this DateTime source, string cultureName)
 		=> GetDaysOfWeekNames(source, new CultureInfo(cultureName));
 
-	/// <summary>
-	/// Gets the list of the names of the days of week using a specific culture.
-	/// </summary>
-	/// <param name="cultureInfo">The specific culture.</param>
-	/// <returns>The names of the days of week.</returns>
-	public static string[] GetDaysOfWeekNames(this DateTime source, CultureInfo cultureInfo)
-		=> cultureInfo.DateTimeFormat.DayNames;
+    /// <summary>
+    /// Gets the list of the names of the days of week using a specific culture.
+    /// </summary>
+    /// <param name="cultureInfo">The specific culture.</param>
+    /// <returns>The names of the days of week.</returns>
+    public static string[] GetDaysOfWeekNames(this DateTime source, CultureInfo cultureInfo)
+        => cultureInfo.DateTimeFormat.DayNames;
 
 	/// <summary>
 	/// Gets the list of the short names of the days of week using the current culture.
@@ -96,12 +98,12 @@ public static class DateTimeExtensions
 	public static string[] GetDaysOfWeekShortNames(this DateTime source, string cultureName)
 		=> GetDaysOfWeekShortNames(source, new CultureInfo(cultureName));
 
-	/// <summary>
-	/// Gets the list of the short names of the days of week using a specific culture.
-	/// </summary>
-	/// <param name="cultureInfo">The specific culture.</param>
-	/// <returns>The short names of the days of week.</returns>
-	public static string[] GetDaysOfWeekShortNames(this DateTime source, CultureInfo cultureInfo)
+    /// <summary>
+    /// Gets the list of the short names of the days of week using a specific culture.
+    /// </summary>
+    /// <param name="cultureInfo">The specific culture.</param>
+    /// <returns>The short names of the days of week.</returns>
+    public static string[] GetDaysOfWeekShortNames(this DateTime source, CultureInfo cultureInfo)
 		=> cultureInfo.DateTimeFormat.AbbreviatedDayNames;
 	#endregion
 
@@ -206,6 +208,15 @@ public static class DateTimeExtensions
     #endregion
 
     #region Period information and management
+	/// <summary>
+	/// Adds an interval of time to a datetime value based on a date/time unit.
+	/// </summary>
+	/// <param name="source">The datetime to be modified.</param>
+	/// <param name="interval">The interval to add based on the date/time unit.</param>
+	/// <param name="intervalType">The date/time unit.</param>
+	/// <returns>The datetime with the interval applied.</returns>
+	/// <exception cref="ArgumentOutOfRangeException">Exception thrown when the interval cannot be converted to an int value in the case of months and years, and to a long value in the case of ticks.</exception>
+	/// <exception cref="ArgumentException">Exception thrown when the date/time unit provided is not valid.</exception>
 	public static DateTime AddInterval(this DateTime source, double interval, DateTimeInterval intervalType)
 	{
 		return intervalType switch
@@ -237,15 +248,29 @@ public static class DateTimeExtensions
 		};
 	}
 
-    public static double GetTimeElapsed(this DateTime source, DateTimeInterval interval)
-        => GetTimeElapsed(source, DateTime.UtcNow, interval);
+    /// <summary>
+    /// Gets the time elapsed between a given date and the present moment on a specific date/time unit.
+    /// </summary>
+    /// <param name="source">The given date.</param>
+    /// <param name="intervalType">The date/time unit to calculate the time elapsed.</param>
+    /// <param name="useUtc">A boolean value to use UTC (true) or not (false) to get the present moment.</param>
+    /// <returns>The time elapsed.</returns>
+    public static double GetTimeElapsed(this DateTime source, DateTimeInterval intervalType, bool useUtc = true)
+        => GetTimeElapsed(source, useUtc ? DateTime.UtcNow : DateTime.Now, intervalType);
 
-    public static double GetTimeElapsed(this DateTime source, DateTime target, DateTimeInterval interval)
+    /// <summary>
+    /// Gets the time elapsed between two dates on a specific date/time unit.
+    /// </summary>
+    /// <param name="source">The source date.</param>
+    /// <param name="target">The target date.</param>
+    /// <param name="useUtc">A boolean value to use UTC (true) or not (false) to get the present moment.</param>
+    /// <returns>The time elapsed.</returns>
+    public static double GetTimeElapsed(this DateTime source, DateTime target, DateTimeInterval intervalType)
     {
         var firstDay = new DateTime(1, 1, 1);
         TimeSpan difference = target.Subtract(source);
 
-        switch (interval)
+        switch (intervalType)
         {
             case DateTimeInterval.Days:
                 return difference.TotalDays;
@@ -267,7 +292,7 @@ public static class DateTimeExtensions
                 return Math.Round(difference.TotalSeconds);
 
             case DateTimeInterval.Weeks:
-                return System.Math.Ceiling(difference.TotalDays / 7);
+                return Math.Ceiling(difference.TotalDays / 7);
 
             case DateTimeInterval.Years:
                 return (firstDay + difference).Year - 1;
@@ -278,12 +303,21 @@ public static class DateTimeExtensions
         }
     }
 
-	public static DateTime PeriodEndsAt(
+    /// <summary>
+    /// Returns a date and time at which a period of time ends from a given date.
+    /// </summary>
+    /// <param name="source">The given date.</param>
+	/// <param name="interval">The period of time to be calculated based on the date/time unit.</param>
+	/// <param name="intervalType">The date/time unit.</param>
+    /// <param name="daysOfWeekExcluded">An array of days of the week that could be excluded.</param>
+    /// <param name="datesExcluded">An array of dates that could be excluded.</param>
+    /// <returns>The date and time when the period ends.</returns>
+    public static DateTime PeriodEndsAt(
 		this DateTime source,
         double interval,
 		DateTimeInterval intervalType,
         DayOfWeek[] daysOfWeekExcluded,
-		DateTime[] datesExcluded)
+		DateOnly[] datesExcluded)
 	{
 		if (daysOfWeekExcluded.IsNullOrEmpty() && datesExcluded.IsNullOrEmpty())
 		{
@@ -292,19 +326,25 @@ public static class DateTimeExtensions
 
 		var periodEndsAt = source;
 		var counterOfTime = 1;
+		bool isDayOfWeekExcluded;
+		bool isDateExcluded;
 
-		while (counterOfTime <= interval)
+        while (counterOfTime <= interval)
 		{
 			periodEndsAt = periodEndsAt.AddInterval(1, intervalType);
+			isDayOfWeekExcluded = daysOfWeekExcluded.Contains(periodEndsAt.DayOfWeek);
+			isDateExcluded = datesExcluded.Contains(DateOnly.FromDateTime(periodEndsAt.Date));
 
-			if (!daysOfWeekExcluded.Contains(periodEndsAt.DayOfWeek)
-				&& !datesExcluded.Contains(periodEndsAt.Date))
+            if (!isDayOfWeekExcluded && !isDateExcluded)
 			{
 				counterOfTime++;
 			}
 		}
 
-		if (daysOfWeekExcluded.Contains(source.DayOfWeek) || datesExcluded.Contains(source.Date))
+		isDayOfWeekExcluded = daysOfWeekExcluded.Contains(source.DayOfWeek);
+		isDateExcluded = datesExcluded.Contains(DateOnly.FromDateTime(source.Date));
+
+        if (isDayOfWeekExcluded || isDateExcluded)
 		{
 			periodEndsAt = periodEndsAt.AddInterval(1, intervalType);
 		}
@@ -312,12 +352,21 @@ public static class DateTimeExtensions
 		return periodEndsAt;
 	}
 
-	public static bool PeriodHasExpired(
+    /// <summary>
+    /// Given a certain date, it evaluates if a period of time has already passed and therefore has expired.
+    /// </summary>
+    /// <param name="source">The given date.</param>
+	/// <param name="interval">The period of time to be calculated based on the date/time unit.</param>
+	/// <param name="intervalType">The date/time unit.</param>
+    /// <param name="daysOfWeekExcluded">An array of days of the week that could be excluded.</param>
+    /// <param name="datesExcluded">An array of dates that could be excluded.</param>
+    /// <returns>True when the period has expired, otherwise false.</returns>
+    public static bool PeriodHasExpired(
 		this DateTime source,
 		double interval,
 		DateTimeInterval intervalType,
 		DayOfWeek[] daysOfWeekExcluded,
-		DateTime[] datesExcluded)
+		DateOnly[] datesExcluded)
 	{
 		DateTime periodEndsAt = PeriodEndsAt(source, interval, intervalType, daysOfWeekExcluded, datesExcluded);
 		return periodEndsAt < DateTime.UtcNow;
@@ -325,6 +374,12 @@ public static class DateTimeExtensions
     #endregion
 
     #region Private methods
+	/// <summary>
+	/// Try to parse an interval expressed as a double value to an integer value.
+	/// </summary>
+	/// <param name="interval">The interval to parse.</param>
+	/// <param name="result">The interval parsed.</param>
+	/// <returns>The interval parsed.</returns>
     private static bool TryParseInterval(double interval, out int result)
 	{
 		bool isTheConversionValid = interval >= int.MinValue && interval <= int.MaxValue;
@@ -332,6 +387,12 @@ public static class DateTimeExtensions
 		return isTheConversionValid;
     }
 
+    /// <summary>
+    /// Try to parse an interval expressed as a double value to an long value.
+    /// </summary>
+    /// <param name="interval">The interval to parse.</param>
+    /// <param name="result">The interval parsed.</param>
+    /// <returns>The interval parsed.</returns>
     private static bool TryParseInterval(double interval, out long result)
     {
         bool isTheConversionValid = interval >= long.MinValue && interval <= long.MaxValue;

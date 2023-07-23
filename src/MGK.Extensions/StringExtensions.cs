@@ -137,6 +137,24 @@ public static class StringExtensions
 		=> decimal.TryParse(source, out _) && source.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
 
 	/// <summary>
+	/// Evaluates if two strings are equal or not based on a comparison type. Null values will be considered as empty strings.
+	/// </summary>
+	/// <param name="source">The source string.</param>
+	/// <param name="target">The target string.</param>
+	/// <param name="comparisonType">The type of comparison. By default is ordinal and it ignore the case of the characters.</param>
+	/// <returns>True if the strings are equal, otherwise false.</returns>
+	public static bool IsEqualTo(
+		this string source,
+		string target,
+		StringComparison comparisonType = StringComparison.OrdinalIgnoreCase)
+	{
+		source ??= string.Empty;
+		target ??= string.Empty;
+
+		return source.Equals(target, comparisonType);
+	}
+
+	/// <summary>
 	/// Evaluates if a given string is an integer.
 	/// </summary>
 	/// <param name="source">The given string.</param>

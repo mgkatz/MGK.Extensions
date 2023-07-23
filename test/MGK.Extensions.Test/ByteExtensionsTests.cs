@@ -1,6 +1,6 @@
 ﻿namespace MGK.Extensions.Test
 {
-	public class ByteExtensionsTests
+    public class ByteExtensionsTests
 	{
 		[Test]
 		public void ToString_ShouldConvertBytesToString()
